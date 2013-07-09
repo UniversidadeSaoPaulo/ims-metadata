@@ -4,8 +4,8 @@ Plugin Name: IMS Metadata
 Plugin URI: https://github.com/atp/ims-metadata
 Version: 0.8
 Description: Add IMS-metadata into post and media resource, this plugin is used to convert WP into a Learning Object Repository. The OAI-PMH specification is used to harvest the metadata through URI: HOME_URL/wp-content/plugins/ims-metadata/oai2.php?verb=Identify.
-Author: geiser.gcc
-Author URI: https://github.com/geiser
+Author: geiser
+Author URI: https://github.com/atp
 */
 
 /*
@@ -537,6 +537,16 @@ class IMSMetadata {
             $result .= preg_replace('#\{value\}#i', $value, $content);
         }
         return $result;
+    }
+
+    /**
+     * This function add filter to oai-PMH
+     */
+    public static function filter_where($where = '') {
+        global $from, $until;
+        if (isset($from)) { $where .= " AND post_modified >= '".date('Y-m-d H:i:s', $from)."'"; }
+        if (isset($until)) { $where .= " AND post_modified <= '".date('Y-m-d H:i:s', $until)."'"; }
+        return $where;
     }
     
 }
